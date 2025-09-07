@@ -1,0 +1,28 @@
+import { NextResponse } from "next/server";
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const userMessage = body.message as string;
+
+    // Simple logic (Rule-based reply)
+    let reply: string;
+
+    if (!userMessage) {
+      reply = "⚠️ Please send a valid message.";
+    } else if (userMessage.toLowerCase().includes("hello")) {
+      reply = "Hi there! 👋 How can I help you today?";
+    } else if (userMessage.toLowerCase().includes("bye")) {
+      reply = "Goodbye! Take care! 👋";
+    } else {
+      reply = You said: "${userMessage}". (This is bot’s demo reply 🚀);
+    }
+
+    return NextResponse.json({ reply });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong on the server!" },
+      { status: 500 }
+    );
+  }
+}
